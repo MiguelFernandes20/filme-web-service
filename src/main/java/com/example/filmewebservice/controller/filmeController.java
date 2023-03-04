@@ -17,16 +17,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 // Importa a classe "GetMapping" do framework Spring
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 // Importa a classe "PathVariable" do framework Spring
-import org.springframework.web.bind.annotation.PathVariable;
 
 // Importa a classe "RequestMapping" do framework Spring
-import org.springframework.web.bind.annotation.RequestMapping;
 
 // Importa a classe "RestController" do framework Spring
-import org.springframework.web.bind.annotation.RestController;
 
 // Importa a classe "List" do pacote java.util
 import java.util.List;
@@ -71,6 +68,18 @@ public class filmeController {
         // Se a variável "filme" for nula, retorna uma ResponseEntity com o status "NO_CONTENT"
         // Caso contrário, retorna uma ResponseEntity com o filme encontrado e o status "OK"
         return filme == null? ResponseEntity.status(HttpStatus.NO_CONTENT).build():  ResponseEntity.status(HttpStatus.OK).body(filme);
+    }
+
+    @PostMapping
+    public ResponseEntity<filme>criafilme(@RequestBody filme filme){
+        filme filmeSalvo = filmeservice.criaFilme(filme);
+        return  ResponseEntity.status(HttpStatus.CREATED).body(filmeSalvo);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteFilme(@PathVariable Long id){
+        filmeservice.deleteFilme(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }

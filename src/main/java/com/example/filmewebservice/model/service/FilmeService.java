@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.Array;
 
 // Importa a classe List da biblioteca padrão Java
+import java.util.ArrayList;
 import java.util.List;
 
 // Importa a classe Arrays da biblioteca padrão Java
@@ -21,9 +22,7 @@ import java.util.Arrays;
 public class FilmeService {
 
     // Cria uma lista imutável de filmes
-    private  List<filme> filmes = Arrays.asList(
-            new filme( 1L, "Jogos Vorazes", "Susan Colins" ),
-            new filme(2L, "Harry Potter", "JK Rolling"));
+    private  List<filme> filmes = new ArrayList<>();
 
     // Método que retorna todos os filmes
     public List<filme> buscaTodos() {
@@ -40,5 +39,22 @@ public class FilmeService {
         }
         // Se não encontrou um filme com o id informado, retorna null
         return null;
+    }
+
+    public filme criaFilme(filme filme) {
+        Long id;
+        if (filmes.isEmpty())
+            id = 1L;
+        else
+            id = filmes.get(filmes.size() -1).getId() + 1;
+        filme.setId(id);
+
+        filmes.add(filme);
+        return filme;
+    }
+
+    public void deleteFilme(Long id) {
+        filme filme = buscaPorId(id);
+        filmes.remove(filme);
     }
 }
